@@ -8,8 +8,8 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { DragHandleHorizontalIcon } from '@radix-ui/react-icons'
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { DragHandleHorizontalIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import logo from '@/assets/logo.png'
 import Sidebar from './Sidebar'
 
@@ -24,9 +24,9 @@ const Navbar = () => {
                         <Button
                             variant={'outline'}
                             size={'icon'}
-                            className='rounded-full w-11 h-11'
+                            className='rounded-full w-11 h-11 border-0 shadow-none'
                         >
-                            <DragHandleHorizontalIcon className="w-7 h-7" />
+                            <DragHandleHorizontalIcon style={{ width: '30px', height: '30px' }} />
                         </Button>
                     </SheetTrigger>
                     <SheetContent
@@ -48,6 +48,24 @@ const Navbar = () => {
                         <Sidebar />
                     </SheetContent>
                 </Sheet>
+                <p className='text-sm lg:text-base cursor-pointer'>
+                    Coiniverse
+                </p>
+                <div className='p-0 ml-9'>
+                    <Button
+                        variant={'outline'}
+                        className='flex items-center gap-3'
+                    >
+                        <MagnifyingGlassIcon />
+                        <span>Search</span>
+                    </Button>
+                </div>
+            </div>
+            <div>
+                <Avatar className="avatar">
+                    {/* <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> */}
+                    <AvatarFallback className='avatar-fallback'>C</AvatarFallback>
+                </Avatar>
             </div>
         </div>
     )
