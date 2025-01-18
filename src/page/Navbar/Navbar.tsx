@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     Sheet,
-    SheetClose,
     SheetContent,
     SheetHeader,
     SheetTitle,
