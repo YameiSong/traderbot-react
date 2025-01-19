@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { BookmarkIcon, CreditCardIcon, HomeIcon, LandmarkIcon } from 'lucide-react'
 import { SheetClose } from '@/components/ui/sheet'
 import { ActivityLogIcon, DashboardIcon, ExitIcon, PersonIcon } from '@radix-ui/react-icons'
+import { useNavigate } from 'react-router-dom'
 
 const menu = [
     { name: "Home", path: "/", icon: <HomeIcon className='w-6 h-6' /> },
@@ -18,6 +19,8 @@ const menu = [
 ]
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+
     return (
         <div className='mt-10 space-y-5'>
             {menu.map((item, index) => (
@@ -25,6 +28,7 @@ const Sidebar = () => {
                     <Button
                         variant={'outline'}
                         className='flex items-center gap-5 py-6 w-full'
+                        onClick={() => navigate(item.path)}
                     >
                         <span className='w-8'>
                             {item.icon}

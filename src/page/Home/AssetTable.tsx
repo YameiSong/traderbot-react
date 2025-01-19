@@ -2,7 +2,6 @@ import React from 'react'
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -16,7 +15,7 @@ const AssetTable = () => {
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead className="w-[100px]">Coin</TableHead>
+                    <TableHead>Coin</TableHead>
                     <TableHead>Symbol</TableHead>
                     <TableHead>Volume</TableHead>
                     <TableHead>Market Cap</TableHead>
@@ -28,7 +27,7 @@ const AssetTable = () => {
                 {[1, 1, 1, 1, 1, 1, 1].map((_, index) =>
                     <TableRow key={index}>
                         <TableCell className="font-medium flex items-center gap-2">
-                            <Avatar className='z-50'>
+                            <Avatar className='z-50 w-10'>
                                 <AvatarImage
                                     src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
                                 />
