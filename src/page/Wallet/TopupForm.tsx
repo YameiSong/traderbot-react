@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+// import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'
 import React from 'react'
 
 // ISSUE: Item selection is not working.
@@ -16,7 +17,7 @@ const TopupForm = () => {
         setPaymentMethod(value)
     }
     const handleSubmit = () => {
-        console.log('submit')
+        console.log('submit' + amount + paymentMethod)
     }
     return (
         <div className="pt-10 space-y-5">
@@ -33,7 +34,7 @@ const TopupForm = () => {
                 <p className="pb-2">Select payment method</p>
                 <RadioGroup
                     onValueChange={handlePaymentMethod}
-                    className='flex'
+                    className='flex justify-between'
                     defaultValue='Stripe'
                 >
                     <div className="flex items-center space-x-2 border p-3 rounded-md">
@@ -67,8 +68,8 @@ const TopupForm = () => {
                         />
                         <Label htmlFor='Mastercard'>
                             <img
-                                className='h-6'
-                                src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg"
+                                className='h-12'
+                                src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
                                 alt="mastercard logo" />
                         </Label>
                     </div>
