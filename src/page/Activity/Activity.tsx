@@ -8,12 +8,10 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
-import { Button } from '@/components/ui/button'
-import { BookmarkFilledIcon } from '@radix-ui/react-icons'
 
 const Activity = () => {
-  return (
-    <div className='p-5 lg:px-20'>
+    return (
+        <div className='p-5 lg:px-20'>
             <h1 className='font-bold text-3xl pb-5 text-left'>Activity</h1>
             <Table>
                 <TableHeader>
@@ -52,7 +50,7 @@ const Activity = () => {
                 </TableBody>
             </Table>
         </div>
-  )
+    )
 }
 
 export default Activity

@@ -30,11 +30,11 @@ const Navbar = () => {
                     </SheetTrigger>
                     <SheetContent
                         side={'left'}
-                        className='w-72 border-r-0 flex flex-col justify-center'
+                        className='w-72 border-r-0 flex flex-col justify-start'
                     >
                         <SheetHeader>
                             <SheetTitle>
-                                <div className='text-3xl flex justify-center items-center gap-1'>
+                                <div className='text-3xl flex justify-center items-center gap-1 mt-5'>
                                     <Avatar className="flex items-center">
                                         <AvatarImage src={logo} alt="avatar" className="w-16 h-16" />
                                         <div className='ml-2'>

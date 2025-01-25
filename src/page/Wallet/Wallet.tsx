@@ -8,12 +8,12 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { ReloadIcon } from '@radix-ui/react-icons'
+import { ReloadIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { CopyIcon, DollarSign, DownloadIcon, ShuffleIcon, UploadIcon, WalletIcon } from 'lucide-react'
-import React from 'react'
 import TopupForm from './TopupForm'
 import WithdrawForm from './WithdrawForm'
 import TransferForm from './TransferForm'
+import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 
 const Wallet = () => {
     return (
@@ -53,7 +53,9 @@ const Wallet = () => {
                                     <DialogHeader>
                                         <DialogTitle>Top Up Your Wallet</DialogTitle>
                                     </DialogHeader>
-                                    <TopupForm />
+                                    <DialogDescription>
+                                        <TopupForm />
+                                    </DialogDescription>
                                 </DialogContent>
                             </Dialog>
                             <Dialog>
@@ -68,7 +70,9 @@ const Wallet = () => {
                                     <DialogHeader>
                                         <DialogTitle>Withdraw</DialogTitle>
                                     </DialogHeader>
-                                    <WithdrawForm />
+                                    <DialogDescription>
+                                        <WithdrawForm />
+                                    </DialogDescription>
                                 </DialogContent>
                             </Dialog>
                             <Dialog>
@@ -83,12 +87,42 @@ const Wallet = () => {
                                     <DialogHeader>
                                         <DialogTitle className='text-center text-xl'>Transfer to Other Wallet</DialogTitle>
                                     </DialogHeader>
-                                    <TransferForm />
+                                    <DialogDescription>
+                                        <TransferForm />
+                                    </DialogDescription>
                                 </DialogContent>
                             </Dialog>
                         </div>
                     </CardContent>
                 </Card>
+                <div className='py-5 pt-10'>
+                    <div className='flex gap-2 items-center pb-5'>
+                        <p className='text-2xl font-semibold'>History</p>
+                        <UpdateIcon className='cursor-pointer hover:text-gray-500' />
+                    </div>
+                    <div className="space-y-5">
+                        {[1, 2, 3, 4, 5].map((item) => (
+                            <div>
+                                <Card className='px-5 py-2 flex justify-between items-center'>
+                                    <div className="flex items-center gap-5">
+                                        <Avatar>
+                                            <AvatarFallback>
+                                                <ShuffleIcon />
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className='space-y-1'>
+                                            <p>Buy Asset</p>
+                                            <p className="text-sm text-gray-500">2024-05-02</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="text-green-600">999 USD</p>
+                                    </div>
+                                </Card>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     )
