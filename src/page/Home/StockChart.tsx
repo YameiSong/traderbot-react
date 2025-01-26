@@ -119,7 +119,7 @@ const StockChart = () => {
     };
     return (
         <div>
-            <div className="space-x-3">
+            <div className="space-x-3 flex justify-start m-4">
                 {timeSeries.map((time) =>
                     <Button
                         key={time.key}

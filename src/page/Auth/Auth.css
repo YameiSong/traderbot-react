@@ -1,0 +1,8 @@
+.authContainer {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("/vibrant-blue-watercolor-painting-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
