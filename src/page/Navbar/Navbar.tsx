@@ -1,7 +1,7 @@
-import React from 'react'
 import {
     Sheet,
     SheetContent,
+    SheetDescription,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
@@ -11,9 +11,12 @@ import { DragHandleHorizontalIcon, MagnifyingGlassIcon } from '@radix-ui/react-i
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import logo from '@/assets/logo.png'
 import Sidebar from './Sidebar'
+import { useSelector } from "react-redux"
+import { RootState } from "@/app/store"
 
 
 const Navbar = () => {
+    const auth = useSelector((state: RootState) => state.auth)
     return (
         <div className='px-2 py-3 border-b z-50 bg-background bg-opacity-0 sticky 
         top-0 left-0 right-0 flex justify-between items-center'>
@@ -43,6 +46,7 @@ const Navbar = () => {
                                     </Avatar>
                                 </div>
                             </SheetTitle>
+                            <SheetDescription></SheetDescription>
                         </SheetHeader>
                         <Sidebar />
                     </SheetContent>
@@ -62,8 +66,9 @@ const Navbar = () => {
             </div>
             <div>
                 <Avatar className="avatar">
-                    {/* <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> */}
-                    <AvatarFallback className='avatar-fallback'>C</AvatarFallback>
+                    <AvatarFallback className='avatar-fallback'>
+                        {auth.username ? auth.username.toUpperCase()[0] : 'A'}
+                    </AvatarFallback>
                 </Avatar>
             </div>
         </div>

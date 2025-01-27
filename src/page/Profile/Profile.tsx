@@ -10,10 +10,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { BadgeCheck, BadgeMinus } from 'lucide-react'
-import React from 'react'
 import AccountVerificationForm from './AccountVerificationForm'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/app/store'
 
 const Profile = () => {
+  const auth = useSelector((state: RootState) => state.auth)
   const enable2StepVerification = () => {
     console.log('Enable 2 Step Verification')
   }
@@ -29,11 +31,11 @@ const Profile = () => {
               <div className="space-y-7">
                 <div className="flex">
                   <p className="w-[9rem]">Email :</p>
-                  <p className="text-gray-500">Your email address</p>
+                  <p className="text-gray-500">{auth.email}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">Full Name :</p>
-                  <p className="text-gray-500">Your full name</p>
+                  <p className="text-gray-500">{auth.username}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">Date of Birth :</p>

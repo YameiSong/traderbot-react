@@ -13,13 +13,25 @@ import SearchCoin from './page/Search/SearchCoin'
 import Notfound from './page/Notfound/Notfound'
 import { Routes, Route } from 'react-router-dom'
 import Auth from './page/Auth/Auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { getUser } from './features/Auth/AuthSlice'
+import { AppDispatch, RootState } from './app/store'
 
 function App() {
+  const auth  = useSelector((state: RootState) => state.auth)
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(() => {
+    if (!!auth.loggedIn) {
+      dispatch(getUser())
+    }
+  }, [auth])
+
   return (
     <>
-      <Auth />
       {
-        false && (
+        auth.username ? (
           <div>
             <Navbar />
             <Routes>
@@ -36,7 +48,7 @@ function App() {
               <Route path='*' element={<Notfound />} />
             </Routes>
           </div>
-        )
+        ) : <Auth />
       }
     </>
   )

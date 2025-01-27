@@ -8,30 +8,43 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { loginUser } from "@/features/Auth/AuthSlice"
+import { registerUser } from "@/features/Auth/AuthSlice"
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 
-const SinginForm = () => {
+const SingupForm = () => {
   const dispatch = useDispatch<AppDispatch>()
   const form = useForm({
     resolver: undefined,
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
   })
   const onSubmit = (data: any) => {
-    dispatch(loginUser(data))
+    dispatch(registerUser(data))
   }
   return (
     <div>
-      <p className="text-xl text-gray-600 font-bold text-center pb-5">Login</p>
+      <p className="text-xl text-gray-600 font-bold text-center pb-5">Create New Account</p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input {...field} placeholder="Full Name" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -60,7 +73,7 @@ const SinginForm = () => {
             type="submit"
             className="w-full py-5"
           >
-            Login
+            Sign Up
           </Button>
         </form>
       </Form>
@@ -69,4 +82,4 @@ const SinginForm = () => {
   )
 }
 
-export default SinginForm
+export default SingupForm
