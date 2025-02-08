@@ -8,8 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-
-import React from 'react'
 import PaymentDetailsForm from './PaymentDetailsForm'
 
 const PaymentDetails = () => {

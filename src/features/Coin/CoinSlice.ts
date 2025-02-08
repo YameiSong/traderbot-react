@@ -64,18 +64,40 @@ export const searchCoin = createAsyncThunk('coin/searchCoin', async (keyword: st
 }
 );
 
+export interface CoinData {
+    id: string;
+    name: string;
+    symbol: string;
+    image: object;
+    current_price: number;
+    market_cap: number;
+    total_volume: number;
+    price_change_percentage_24h: number;
+}
+
+type CoinState = {
+    coinList: CoinData[];
+    top50: CoinData[];
+    searchCoinList: CoinData[];
+    marketChart: any[];
+    coinDetails: any;
+    loading: boolean;
+    error: string | null;
+}
+
+const initialState: CoinState = {
+    coinList: [],
+    top50: [],
+    searchCoinList: [],
+    marketChart: [],
+    coinDetails: null,
+    loading: false,
+    error: null,
+}
+
 const coinSlice = createSlice({
     name: 'coin',
-    initialState: {
-        coinList: [],
-        top50: [],
-        searchCoinList: [],
-        marketChart: { data: [], loading: false },
-        coinByID: null,
-        coinDetails: null,
-        loading: false,
-        error: null as string | null,
-    },
+    initialState: initialState,
     reducers: {
     },
     extraReducers: (builder) => {
@@ -83,27 +105,33 @@ const coinSlice = createSlice({
             .addCase(getCoinList.fulfilled, (state, action) => {
                 state.loading = false;
                 state.coinList = action.payload;
+                state.error = null;
             })
             .addCase(getTop50Coins.fulfilled, (state, action) => {
                 state.loading = false;
                 state.top50 = action.payload;
+                state.error = null;
             })
             .addCase(getMarkectChart.fulfilled, (state, action) => {
                 state.loading = false;
-                state.marketChart = action.payload;
-            })
-            .addCase(getCoinByID.fulfilled, (state, action) => {
-                state.loading = false;
-                state.coinByID = action.payload;
+                state.marketChart = action.payload.prices;
+                state.error = null;
             })
             .addCase(getCoinDetails.fulfilled, (state, action) => {
                 state.loading = false;
-                state.coinDetails = null;
+                state.coinDetails = action.payload;
+                state.error = null;
+            })
+            .addCase(searchCoin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.searchCoinList = action.payload.coins;
+                state.error = null;
             })
             .addMatcher(
                 (action) => action.type.endsWith('/pending'),
                 (state) => {
                     state.loading = true;
+                    state.error = null;
                 }
             )
             .addMatcher(
@@ -115,3 +143,5 @@ const coinSlice = createSlice({
             )
     }
 });
+
+export default coinSlice.reducer;

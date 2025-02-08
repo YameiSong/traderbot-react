@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import AssetTable from './AssetTable'
 import StockChart from './StockChart'
@@ -6,11 +6,16 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { DotIcon } from '@radix-ui/react-icons'
 import { X, MessageCircle } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { AppDispatch, RootState } from '@/app/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCoinList } from '@/features/Coin/CoinSlice'
 
 const Home = () => {
     const [category, setCategory] = React.useState("all")
     const [inputValue, setInputValue] = React.useState("")
     const [isChatBotOpen, setIsChatBotOpen] = React.useState(false)
+    const coin = useSelector((state: RootState) => state.coin)
+    const dispatch: AppDispatch = useDispatch()
 
     const handleCategory = (value: string) => {
         setCategory(value)
@@ -30,6 +35,10 @@ const Home = () => {
     const handleChatBotOpen = () => {
         setIsChatBotOpen(!isChatBotOpen)
     }
+
+    useEffect(() => {
+        dispatch(getCoinList(1));
+    }, [])
 
     return (
         <div className="relative">
@@ -68,7 +77,7 @@ const Home = () => {
                             Top Losers
                         </Button>
                     </div>
-                    <AssetTable />
+                    <AssetTable coin={coin.coinList} category={category} />
                 </div>
                 <div className="hidden lg:block lg:w-[50%] p-5">
                     <StockChart />

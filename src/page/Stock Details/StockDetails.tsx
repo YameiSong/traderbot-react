@@ -10,11 +10,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import React from 'react'
+import React, { useEffect } from 'react'
 import TradeForm from './TradeForm'
 import StockChart from '../Home/StockChart'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/app/store'
+import { useParams } from 'react-router-dom'
+import { getCoinDetails } from '@/features/Coin/CoinSlice'
 
 const StockDetails = () => {
+  const coin = useSelector((state: RootState) => state.coin)
+  const dispatch = useDispatch<AppDispatch>()
+  const {id} = useParams()
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getCoinDetails(id))
+    }
+  }, [id])
+
   return (
     <div className='p-5 mt-5'>
       <div className="flex justify-between">
@@ -22,7 +36,7 @@ const StockDetails = () => {
           <div>
             <Avatar>
               <AvatarImage
-                src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
+                src={coin.coinDetails?.image.large}
                 className='w-10'
               />
             </Avatar>
