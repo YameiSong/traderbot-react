@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import TradeForm from './TradeForm'
 import StockChart from '../Home/StockChart'
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,15 +43,15 @@ const StockDetails = () => {
           </div>
           <div>
             <div className='flex items-center gap-2'>
-              <p>BTC</p>
+              <p>{coin.coinDetails?.name}</p>
               <DotIcon className='text-gray-500' />
-              <p className="text-gray-500">Bitcoin</p>
+              <p className="text-gray-500">{coin.coinDetails?.symbol.toUpperCase()}</p>
             </div>
             <div className="flex items-end gap-2">
-              <p className="text-xl font-bold">$6436</p>
+              <p className="text-xl font-bold">${coin.coinDetails?.market_data.current_price.usd}</p>
               <p className="text-red-600">
-                <span>-135734925.759</span>
-                <span>(-0.47395%)</span>
+                <span>-{coin.coinDetails?.market_data.market_cap_change_24h}</span>
+                <span>(-{coin.coinDetails?.market_data.market_cap_change_percentage_24h}%)</span>
               </p>
             </div>
           </div>
@@ -75,9 +75,8 @@ const StockDetails = () => {
         </div>
       </div>
       <div className="mt-14">
-        <StockChart />
+        <StockChart coinId={id ?? ''} />
       </div>
-
     </div>
   )
 }

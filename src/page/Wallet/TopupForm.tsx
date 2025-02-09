@@ -1,15 +1,20 @@
+import { AppDispatch } from '@/app/store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { paymentHandler } from '@/features/Wallet/WalletSlice'
 // import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 // ISSUE: Item selection is not working.
 
 const TopupForm = () => {
+    const dispatch = useDispatch<AppDispatch>()
     const [amount, setAmount] = React.useState('')
     const [paymentMethod, setPaymentMethod] = React.useState('Stripe')
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAmount(e.target.value)
     }
@@ -17,8 +22,9 @@ const TopupForm = () => {
         setPaymentMethod(value)
     }
     const handleSubmit = () => {
-        console.log('submit' + amount + paymentMethod)
+        dispatch(paymentHandler({ amount: Number(amount), paymentMethod: paymentMethod }))
     }
+
     return (
         <div className="pt-10 space-y-5">
             <div>

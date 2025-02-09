@@ -8,7 +8,17 @@ import { X, MessageCircle } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { AppDispatch, RootState } from '@/app/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCoinList } from '@/features/Coin/CoinSlice'
+import { getCoinList, getTop50Coins } from '@/features/Coin/CoinSlice'
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
+
 
 const Home = () => {
     const [category, setCategory] = React.useState("all")
@@ -37,8 +47,12 @@ const Home = () => {
     }
 
     useEffect(() => {
-        dispatch(getCoinList(1));
-    }, [])
+        if (category === 'all') {
+            dispatch(getCoinList(1));
+        } else if (category === 'top50') {
+            dispatch(getTop50Coins());
+        }
+    }, [category])
 
     return (
         <div className="relative">
@@ -77,10 +91,31 @@ const Home = () => {
                             Top Losers
                         </Button>
                     </div>
-                    <AssetTable coin={coin.coinList} category={category} />
+                    <AssetTable
+                        coin={category === 'all' ? coin.coinList : coin.top50}
+                        category={category}
+                    />
+                    <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext href="#" />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
                 </div>
+                
+
                 <div className="hidden lg:block lg:w-[50%] p-5">
-                    <StockChart />
+                    <StockChart coinId='bitcoin' />
                     <div className="flex gap-5 items-center">
                         <Avatar>
                             <AvatarImage src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628" />

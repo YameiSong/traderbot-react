@@ -7,15 +7,39 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-
 import { ReloadIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { CopyIcon, DollarSign, DownloadIcon, ShuffleIcon, UploadIcon, WalletIcon } from 'lucide-react'
 import TopupForm from './TopupForm'
 import WithdrawForm from './WithdrawForm'
 import TransferForm from './TransferForm'
 import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/app/store'
+import { useEffect } from 'react'
+import { depositMoney, getUserWallet } from '@/features/Wallet/WalletSlice'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 const Wallet = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const wallet = useSelector((state: RootState) => state.wallet);
+    const query = useQuery();
+    const orderId = query.get('order_id');
+
+    useEffect(() => {
+        dispatch(getUserWallet());
+    }, [])
+
+    useEffect(() => {
+        if (orderId) {
+            dispatch(depositMoney(orderId));
+        }
+    }, [orderId])
+
     return (
         <div className='flex flex-col items-center'>
             <div className="pt-10 w-full lg:w-[60%]">
@@ -32,13 +56,16 @@ const Wallet = () => {
                                     </div>
                                 </div>
                             </div>
-                            <ReloadIcon className='cursor-pointer hover:text-gray-500 w-6 h-6' />
+                            <ReloadIcon
+                                onClick={() => dispatch(getUserWallet())}
+                                className='cursor-pointer hover:text-gray-500 w-6 h-6'
+                            />
                         </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex items-center">
                             <DollarSign />
-                            <span className='text-2xl font-semibold'>20000</span>
+                            <span className='text-2xl font-semibold'>{wallet.userWallet.balance}</span>
                         </div>
                         <div className="flex gap-7 mt-5">
                             <Dialog>
@@ -102,7 +129,7 @@ const Wallet = () => {
                     </div>
                     <div className="space-y-5">
                         {[1, 2, 3, 4, 5].map((item) => (
-                            <div>
+                            <div key={item}>
                                 <Card className='px-5 py-2 flex justify-between items-center'>
                                     <div className="flex items-center gap-5">
                                         <Avatar>
