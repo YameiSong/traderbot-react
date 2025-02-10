@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/store'
 import { useEffect } from 'react'
 import { depositMoney, getUserWallet } from '@/features/Wallet/WalletSlice'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -25,10 +25,10 @@ function useQuery() {
 
 const Wallet = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const navigate = useNavigate();
     const wallet = useSelector((state: RootState) => state.wallet);
     const query = useQuery();
     const orderId = query.get('order_id');
+    console.log('order id',orderId);
 
     useEffect(() => {
         dispatch(getUserWallet());
@@ -51,7 +51,7 @@ const Wallet = () => {
                                 <div>
                                     <CardTitle className='text-2xl'>My Wallet</CardTitle>
                                     <div className="flex items-center gap-2">
-                                        <p className='text-gray-500 text-sm'>#A476Ed</p>
+                                        <p className='text-gray-500 text-sm'>{wallet.userWallet?.id}</p>
                                         <CopyIcon className='cursor-pointer hover:text-gray-500' size={12} />
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@ const Wallet = () => {
                     <CardContent>
                         <div className="flex items-center">
                             <DollarSign />
-                            <span className='text-2xl font-semibold'>{wallet.userWallet.balance}</span>
+                            <span className='text-2xl font-semibold'>{wallet.userWallet?.balance}</span>
                         </div>
                         <div className="flex gap-7 mt-5">
                             <Dialog>

@@ -1,9 +1,14 @@
+import { AppDispatch, RootState } from '@/app/store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { transferMoney } from '@/features/Wallet/WalletSlice'
 import { DialogClose } from '@radix-ui/react-dialog'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const TransferForm = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const wallet = useSelector((state: RootState) => state.wallet);
   const [formData, setFormData] = React.useState({
     amount: '',
     walletID: '',
@@ -16,7 +21,13 @@ const TransferForm = () => {
     })
   }
   const handleSubmit = () => {
-    console.log(formData)
+    dispatch(transferMoney({
+      walletId: formData.walletID,
+      reqData: {
+        amount: formData.amount,
+        purpose: formData.purpose,
+      }
+    }))
   }
   return (
     <div className='space-y-5'>

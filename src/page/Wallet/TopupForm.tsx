@@ -4,11 +4,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { paymentHandler } from '@/features/Wallet/WalletSlice'
-// import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-
-// ISSUE: Item selection is not working.
 
 const TopupForm = () => {
     const dispatch = useDispatch<AppDispatch>()

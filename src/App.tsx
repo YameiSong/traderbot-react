@@ -11,7 +11,7 @@ import Watchlist from './page/Watchlist/Watchlist'
 import Profile from './page/Profile/Profile'
 import SearchCoin from './page/Search/SearchCoin'
 import Notfound from './page/Notfound/Notfound'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import Auth from './page/Auth/Auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -21,17 +21,19 @@ import { AppDispatch, RootState } from './app/store'
 function App() {
   const auth  = useSelector((state: RootState) => state.auth)
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!!auth.loggedIn) {
+    const token = localStorage.getItem('token');
+    if (token || !!auth.loggedIn) {
       dispatch(getUser())
     }
-  }, [auth])
+  }, [auth.loggedIn])
 
   return (
     <>
       {
-        auth.username ? (
+        auth.loggedIn ? (
           <div>
             <Navbar />
             <Routes>

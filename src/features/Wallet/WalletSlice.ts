@@ -52,7 +52,7 @@ export const paymentHandler = createAsyncThunk('/wallet/paymentHandler',
 export const transferMoney = createAsyncThunk('/wallet/transferMoney',
     async ({ walletId, reqData }: { walletId: string, reqData: object }) => {
         try {
-            const response = await api.post(`/api/wallet/${walletId}/transfer`, reqData);
+            const response = await api.put(`/api/wallet/${walletId}/transfer`, reqData);
             console.log(response.data);
             return response.data;
         } catch (error) {

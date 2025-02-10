@@ -9,11 +9,13 @@ interface UserData {
 
 export const registerUser = createAsyncThunk('auth/signup', async (userData: UserData) => {
   const response = await api.post('/auth/signup', userData);
+  console.log(response.data);
   return response.data;
 });
 
 export const loginUser = createAsyncThunk('auth/signin', async (userData: UserData) => {
   const response = await api.post('/auth/signin', userData);
+  console.log(response.data);
   return response.data;
 });
 
@@ -25,6 +27,7 @@ export const loginUser = createAsyncThunk('auth/signin', async (userData: UserDa
 export const getUser = createAsyncThunk('/user-profile', async () => {
   try {
     const response = await api.get('/api/users/profile');
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -86,11 +89,14 @@ const authSlice = createSlice({
       // })
       // Get user profile
       .addCase(getUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.loggedIn = true;
         state.username = action.payload.username;
         state.email = action.payload.email;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.loading = false;
+        state.loggedIn = false;
         state.error = action.error.message ?? null;
       })
       .addMatcher(
