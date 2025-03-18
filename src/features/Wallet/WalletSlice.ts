@@ -13,7 +13,7 @@ export const getUserWallet = createAsyncThunk('/wallet/getUserWallet', async () 
 
 export const getWalletTransactions = createAsyncThunk('/wallet/getWalletTransactions', async () => {
     try {
-        const response = await api.get('/api/wallet/transactions');
+        const response = await api.get('/api/transactions');
         console.log(response.data);
         return response.data;
     } catch (error) {
@@ -34,7 +34,6 @@ export const depositMoney = createAsyncThunk('/wallet/depositMoney',
         } catch (error) {
             console.log(error);
         }
-        // TODO: navigate to /wallet
     });
 
 export const paymentHandler = createAsyncThunk('/wallet/paymentHandler',
@@ -78,9 +77,19 @@ export interface userWallet {
     balance: number;
 }
 
+export interface Transaction {
+    id: number;
+    transferId: number;
+    type: string;
+    amount: number;
+    purpose: string;
+    date: string;
+}
+
 type walletState = {
     userWallet: userWallet;
-    transactions: [];
+    transactions: Transaction[];
+    paymentId: string;
     loading: boolean;
     error: string | null;
 }
@@ -102,6 +111,7 @@ const initialState: walletState = {
         balance: 0,
     },
     transactions: [],
+    paymentId: '',
     loading: false,
     error: null,
 };
@@ -124,9 +134,11 @@ const walletSlice = createSlice({
                 state.loading = false;
                 state.userWallet = action.payload;
             })
-            // .addCase(paymentHandler.fulfilled, (state, action) => {
-            //     state.loading = false;
-            // })
+            .addCase(paymentHandler.fulfilled, (state, action) => {
+                state.loading = false;
+                state.paymentId = action.payload.payment_id;
+
+            })
             // .addCase(transferMoney.fulfilled, (state, action) => {
             //     state.loading = false;
             //     state.userWallet = action.payload;

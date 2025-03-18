@@ -16,7 +16,7 @@ import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/store'
 import { useEffect } from 'react'
-import { depositMoney, getUserWallet } from '@/features/Wallet/WalletSlice'
+import { depositMoney, getUserWallet, getWalletTransactions } from '@/features/Wallet/WalletSlice'
 import { useLocation } from 'react-router-dom'
 
 function useQuery() {
@@ -28,10 +28,11 @@ const Wallet = () => {
     const wallet = useSelector((state: RootState) => state.wallet);
     const query = useQuery();
     const orderId = query.get('order_id');
-    console.log('order id',orderId);
+    console.log('order id', orderId);
 
     useEffect(() => {
         dispatch(getUserWallet());
+        dispatch(getWalletTransactions());
     }, [])
 
     useEffect(() => {
@@ -128,22 +129,22 @@ const Wallet = () => {
                         <UpdateIcon className='cursor-pointer hover:text-gray-500' />
                     </div>
                     <div className="space-y-5">
-                        {[1, 2, 3, 4, 5].map((item) => (
-                            <div key={item}>
+                        {wallet.transactions.map((item, index) => (
+                            <div key={index}>
                                 <Card className='px-5 py-2 flex justify-between items-center'>
                                     <div className="flex items-center gap-5">
-                                        <Avatar>
+                                        <Avatar onClick={() => dispatch(getWalletTransactions())}>
                                             <AvatarFallback>
                                                 <ShuffleIcon />
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className='space-y-1'>
-                                            <p>Buy Asset</p>
-                                            <p className="text-sm text-gray-500">2024-05-02</p>
+                                            <p>{item.type || item.purpose}</p>
+                                            <p className="text-sm text-gray-500">{item.date}</p>
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="text-green-600">999 USD</p>
+                                        <p className="text-green-600">{item.amount} USD</p>
                                     </div>
                                 </Card>
                             </div>

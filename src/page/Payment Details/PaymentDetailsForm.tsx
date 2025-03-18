@@ -1,3 +1,4 @@
+import { AppDispatch } from "@/app/store"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -8,10 +9,13 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { addPaymentDetails } from "@/features/Withdrawal/WithdrawalSlice"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { useForm } from "react-hook-form"
+import { useDispatch } from "react-redux"
 
 const PaymentDetailsForm = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const form = useForm({
         resolver: undefined,
         defaultValues: {
@@ -22,7 +26,8 @@ const PaymentDetailsForm = () => {
         },
     })
     const onSubmit = (data: any) => {
-        console.log(data)
+        dispatch(addPaymentDetails(data));
+        console.log(data);
     }
     return (
         <div className='px-10 py-2'>
