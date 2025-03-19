@@ -1,16 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table"
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/app/store';
+import { getWithdrawalHistory } from '@/features/Withdrawal/WithdrawalSlice';
 
 const Withdrawal = () => {
-  return (
-    <div className='p-5 lg:px-20'>
+    const dispatch = useDispatch<AppDispatch>();
+    const withdrawal = useSelector((state: RootState) => state.withdrawal);
+
+    useEffect(() => {
+        dispatch(getWithdrawalHistory());
+    }, [])
+
+    return (
+        <div className='p-5 lg:px-20'>
             <h1 className='font-bold text-3xl pb-5 text-left'>Withdrawal</h1>
             <Table>
                 <TableHeader>
@@ -22,18 +32,18 @@ const Withdrawal = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {[1, 1, 1, 1, 1, 1, 1].map((_, index) =>
+                    {withdrawal.withdrawalRequests.map((item, index) =>
                         <TableRow key={index}>
-                            <TableCell className="text-left">2 June, 2024 at 11:42</TableCell>
+                            <TableCell className="text-left">{item.date}</TableCell>
                             <TableCell className="text-left">Bank</TableCell>
-                            <TableCell className="text-left">$102225</TableCell>
-                            <TableCell className="text-right">345</TableCell>
+                            <TableCell className="text-left">${item.amount}</TableCell>
+                            <TableCell className="text-right">{item.status}</TableCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
         </div>
-  )
+    )
 }
 
 export default Withdrawal

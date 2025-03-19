@@ -2,19 +2,21 @@ import { AppDispatch, RootState } from '@/app/store'
 import { Button } from '@/components/ui/button'
 import { DialogClose } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { requestWithdrawal } from '@/features/Withdrawal/WithdrawalSlice'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const WithdrawForm = () => {
   const dispatch = useDispatch<AppDispatch>();
   const wallet = useSelector((state: RootState) => state.wallet);
+  const withdrawal = useSelector((state: RootState) => state.withdrawal);
 
   const [amount, setAmount] = React.useState('')
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value)
   }
   const handleSubmit = () => {
-    console.log('submit' + amount)
+    dispatch(requestWithdrawal(Number(amount)));
   }
   return (
     <div className='space-y-5'>
@@ -40,8 +42,8 @@ const WithdrawForm = () => {
             src="https://cdn.pixabay.com/photo/2020/02/18/11/03/bank-4859142_1280.png"
             alt=""
           />
-          <p className='text-xl font-bold'>Yes Bank</p>
-          <p className='text-xs'>************1651</p>
+          <p className='text-xl font-bold'>{withdrawal.paymentDetails?.bankName}</p>
+          <p className='text-xs'>{withdrawal.paymentDetails?.accountNumber}</p>
         </div>
       </div>
       <DialogClose className='w-full p-0'>

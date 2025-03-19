@@ -45,7 +45,7 @@ const AssetTable: React.FC<AssetTableProps> = ({ coin, category }) => {
                     {coin && coin.map((item) =>
                         <TableRow key={item.id}>
                             <TableCell
-                                className="font-medium flex items-center gap-2"
+                                className="font-medium flex items-center gap-2 cursor-pointer"
                                 onClick={() => navigate(`/market/${item.id}`)}
                             >
                                 <Avatar className='z-50 w-10'>

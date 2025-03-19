@@ -27,7 +27,6 @@ const PaymentDetailsForm = () => {
     })
     const onSubmit = (data: any) => {
         dispatch(addPaymentDetails(data));
-        console.log(data);
     }
     return (
         <div className='px-10 py-2'>

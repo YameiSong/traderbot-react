@@ -53,7 +53,7 @@ export const addPaymentDetails = createAsyncThunk('/wallet/addPaymentDetails',
     async (paymentDetails: object) => {
         try {
             const response = await api.post('/api/payment-details', paymentDetails);
-            console.log(response.data);
+            console.log("Add payment detail", response.data);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -75,10 +75,9 @@ export const getPaymentDetails = createAsyncThunk('/wallet/getPaymentDetails',
 
 export interface WithdrawalRequest {
     id: string;
+    date: string;
     amount: number;
     status: string;
-    createdAt: string;
-    updatedAt: string;
 }
 
 export interface PaymentDetails {
@@ -86,8 +85,7 @@ export interface PaymentDetails {
     accountNumber: string;
     bankName: string;
     accountHolderName: string;
-    createdAt: string;
-    updatedAt: string;
+    ifsc: string;
 }
 
 type withdrawalState = {

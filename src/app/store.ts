@@ -3,6 +3,8 @@ import authReducer from '@/features/Auth/AuthSlice';
 import coinReducer from '@/features/Coin/CoinSlice';
 import walletReducer from '@/features/Wallet/WalletSlice';
 import withdrawalReducer from '@/features/Withdrawal/WithdrawalSlice';
+import orderReducer from '@/features/Order/OrderSlice';
+import assetReducer from '@/features/Asset/AssetSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
     coin: coinReducer,
     wallet: walletReducer,
     withdrawal: withdrawalReducer,
+    order: orderReducer,
+    asset: assetReducer,
   },
 });
 

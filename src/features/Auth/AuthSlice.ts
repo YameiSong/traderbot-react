@@ -8,12 +8,14 @@ interface UserData {
 }
 
 export const registerUser = createAsyncThunk('auth/signup', async (userData: UserData) => {
+  localStorage.removeItem('token'); // Clear token before registering
   const response = await api.post('/auth/signup', userData);
   console.log(response.data);
   return response.data;
 });
 
 export const loginUser = createAsyncThunk('auth/signin', async (userData: UserData) => {
+  localStorage.removeItem('token'); // Clear token before logging in
   const response = await api.post('/auth/signin', userData);
   console.log(response.data);
   return response.data;
