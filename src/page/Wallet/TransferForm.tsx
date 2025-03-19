@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const TransferForm = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const wallet = useSelector((state: RootState) => state.wallet);
   
   const [formData, setFormData] = React.useState({
     amount: '',

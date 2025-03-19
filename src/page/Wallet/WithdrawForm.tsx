@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const WithdrawForm = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const wallet = useSelector((state: RootState) => state.wallet);
   const withdrawal = useSelector((state: RootState) => state.withdrawal);
 
   const [amount, setAmount] = React.useState('')

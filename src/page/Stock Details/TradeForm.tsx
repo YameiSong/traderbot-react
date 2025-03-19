@@ -63,29 +63,29 @@ const TradeForm = () => {
                         </p>
                     </div>
                 </div>
-                {true && <p className='text-red-600 text-center pt-4'>Insufficient wallet balance to buy</p>}
+                {amount > wallet.userWallet.balance && <p className='text-red-600 text-center pt-4'>Insufficient wallet balance to buy</p>}
             </div>
 
             <div className="flex gap-5 items-center">
                 <div>
                     <Avatar>
                         <AvatarImage
-                            src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
+                            src={coin.coinDetails?.image.large}
                             className='w-10'
                         />
                     </Avatar>
                 </div>
                 <div>
                     <div className='flex items-center gap-2'>
-                        <p>BTC</p>
+                        <p>{coin.coinDetails?.symbol.toUpperCase()}</p>
                         <DotIcon className='text-gray-500' />
-                        <p className="text-gray-500">Bitcoin</p>
+                        <p className="text-gray-500">{coin.coinDetails?.name}</p>
                     </div>
                     <div className="flex items-end gap-2">
                         <p className="text-xl font-bold">${coin.coinDetails?.market_data.current_price.usd}</p>
                         <p className="text-red-600">
-                            <span>-135734925.759</span>
-                            <span>(-0.47395%)</span>
+                            <span>{coin.coinDetails?.market_data.price_change_24h}</span>
+                            <span>({coin.coinDetails?.price_change_percentage_24h}%)</span>
                         </p>
                     </div>
                 </div>

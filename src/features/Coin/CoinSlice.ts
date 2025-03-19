@@ -64,7 +64,7 @@ export const searchCoin = createAsyncThunk('coin/searchCoin', async (keyword: st
 }
 );
 
-export interface CoinData {
+export type CoinData = {
     id: string;
     name: string;
     symbol: string;
@@ -75,7 +75,7 @@ export interface CoinData {
     price_change_percentage_24h: number;
 }
 
-export interface CoinDetails {
+export type CoinDetails = {
     id: string;
     name: string;
     symbol: string;

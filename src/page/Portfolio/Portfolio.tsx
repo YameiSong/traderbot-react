@@ -8,12 +8,13 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/app/store';
 import { getUserAssets } from '@/features/Asset/AssetSlice';
 
 const Portfolio = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const asset = useSelector((state: RootState) => state.asset);
 
     useEffect(() => {
         dispatch(getUserAssets());
@@ -25,28 +26,30 @@ const Portfolio = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Asset</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead>Unit</TableHead>
-                        <TableHead>Change%</TableHead>
-                        <TableHead className="text-right">Volume</TableHead>
+                        <TableHead>Coin</TableHead>
+                        <TableHead>Symbol</TableHead>
+                        <TableHead>Quantity</TableHead>
+                        <TableHead>Price Change 24h</TableHead>
+                        <TableHead>Price Change% 24h</TableHead>
+                        <TableHead className="text-right">Total Volume</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {[1, 1, 1, 1, 1, 1, 1].map((_, index) =>
+                    {asset.userAssets.map((item, index) =>
                         <TableRow key={index}>
                             <TableCell className="font-medium flex items-center gap-2">
                                 <Avatar className='z-50 w-10'>
                                     <AvatarImage
-                                        src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
+                                        src={item.coin.image}
                                     />
                                 </Avatar>
-                                <span>Bitcoin</span>
+                                <span>{item.coin.name}</span>
                             </TableCell>
-                            <TableCell className="text-left">55159794426</TableCell>
-                            <TableCell className="text-left">2023715712511</TableCell>
-                            <TableCell className="text-left">102235</TableCell>
-                            <TableCell className="text-right">$102225</TableCell>
+                            <TableCell className="text-left">{item.coin.symbol.toUpperCase()}</TableCell>
+                            <TableCell className="text-left">{item.quantity}</TableCell>
+                            <TableCell className="text-left">{item.coin.price_change_24h}</TableCell>
+                            <TableCell className="text-left">{item.coin.price_change_percentage_24h}</TableCell>
+                            <TableCell className="text-right">{item.coin.total_volume}</TableCell>
                         </TableRow>
                     )}
                 </TableBody>

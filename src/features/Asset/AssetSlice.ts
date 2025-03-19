@@ -34,12 +34,22 @@ export const getUserAssets = createAsyncThunk('/asset/getUserAssets', async () =
 }
 );
 
+type CoinDetails = {
+    id: string;
+    name: string;
+    symbol: string;
+    image: string;
+    currentPrice: number;
+    price_change_24h: number;
+    price_change_percentage_24h: number;
+    total_volume: number;
+};
+
 export type AssetDetails = {
     id: string;
-    coinId: string;
+    coin: CoinDetails;
     quantity: number;
     averageBuyPrice: number;
-    currentPrice: number;
     profitLoss: number;
     profitLossPercentage: number;
 };
