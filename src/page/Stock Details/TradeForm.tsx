@@ -1,14 +1,50 @@
+import { AppDispatch, RootState } from '@/app/store'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { getAssetDetails } from '@/features/Asset/AssetSlice'
+import { payOrder } from '@/features/Order/OrderSlice'
+import { getUserWallet } from '@/features/Wallet/WalletSlice'
 import { DotIcon } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+const calculateBuyCost = (amount: number, price: number) => {
+    let volume = amount / price
+    let decimalPlaces = Math.max(2, price.toString().split('.')[0].length)
+    return volume.toFixed(decimalPlaces)
+}
 
 const TradeForm = () => {
     const [orderType, setOrderType] = React.useState('BUY')
+    const [amount, setAmount] = React.useState(0)
+    const [quantity, setQuantity] = React.useState(0)
+    const coin = useSelector((state: RootState) => state.coin)
+    const wallet = useSelector((state: RootState) => state.wallet)
+    const asset = useSelector((state: RootState) => state.asset)
+    const dispatch = useDispatch<AppDispatch>()
 
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value)
+        const amount = Number(e.target.value)
+        setAmount(amount)
+        const volume = calculateBuyCost(amount, coin.coinDetails?.market_data.current_price.usd || 0)
+        setQuantity(Number(volume))
+    }
+
+    useEffect(() => {
+        dispatch(getUserWallet());
+        if (coin.coinDetails?.id) {
+            dispatch(getAssetDetails(coin.coinDetails.id));
+        }
+    }
+    , [])
+    
+    const handleBuyCrypto = () => {
+        dispatch(payOrder({
+            coinId: coin.coinDetails?.id || '',
+            quantity: quantity,
+            orderType: orderType
+        }))
     }
     return (
         <div className='space-y-10 p-5'>
@@ -23,7 +59,7 @@ const TradeForm = () => {
                     />
                     <div>
                         <p className='border text-2xl flex justify-center items-center w-36 h-14 rounded-md'>
-                            4563
+                            {quantity}
                         </p>
                     </div>
                 </div>
@@ -46,7 +82,7 @@ const TradeForm = () => {
                         <p className="text-gray-500">Bitcoin</p>
                     </div>
                     <div className="flex items-end gap-2">
-                        <p className="text-xl font-bold">$6436</p>
+                        <p className="text-xl font-bold">${coin.coinDetails?.market_data.current_price.usd}</p>
                         <p className="text-red-600">
                             <span>-135734925.759</span>
                             <span>(-0.47395%)</span>
@@ -60,14 +96,17 @@ const TradeForm = () => {
             </div>
             <div className="flex items-center justify-between">
                 <p>
-                    {orderType == 'BUY' ? "Available Case" : "Available Quantity"}
+                    {orderType == 'BUY' ? "Available Balance" : "Available Quantity"}
                 </p>
                 <p>
-                    {orderType == 'BUY' ? "$1000" : "0.0001"}
+                    {orderType == 'BUY' ? "$" + wallet.userWallet?.balance : asset.assetDetails?.quantity || 0}
                 </p>
             </div>
             <div>
-                <Button className='w-full py-6'>
+                <Button 
+                className='w-full py-6'
+                onClick={handleBuyCrypto}
+                >
                     {orderType}
                 </Button>
                 <Button

@@ -16,7 +16,7 @@ import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/store'
 import { useEffect } from 'react'
-import { depositMoney, getUserWallet, getWalletTransactions } from '@/features/Wallet/WalletSlice'
+import { depositMoney, getUserWallet, getWalletTransactions, retrievePaymentId } from '@/features/Wallet/WalletSlice'
 import { useLocation } from 'react-router-dom'
 
 function useQuery() {
@@ -28,7 +28,9 @@ const Wallet = () => {
     const wallet = useSelector((state: RootState) => state.wallet);
     const query = useQuery();
     const orderId = query.get('order_id');
+    const sessionId = query.get('session_id');
     console.log('order id', orderId);
+    console.log('session id', sessionId);
 
     useEffect(() => {
         dispatch(getUserWallet());
@@ -36,10 +38,20 @@ const Wallet = () => {
     }, [])
 
     useEffect(() => {
-        if (orderId) {
-            dispatch(depositMoney(orderId));
+        if (sessionId) {
+            dispatch(retrievePaymentId(sessionId)).then((action) => {
+                const paymentId = action.payload?.payment_id;
+                console.log("Retrieved Payment ID:", paymentId);
+    
+                if (paymentId && orderId) {
+                    dispatch(depositMoney({
+                        orderId: Number(orderId),
+                        paymentId: paymentId
+                    }));
+                }
+            });
         }
-    }, [orderId])
+    }, [sessionId, orderId, dispatch]);
 
     return (
         <div className='flex flex-col items-center'>

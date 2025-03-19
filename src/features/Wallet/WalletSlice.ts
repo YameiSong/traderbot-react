@@ -4,7 +4,7 @@ import api from "@/api";
 export const getUserWallet = createAsyncThunk('/wallet/getUserWallet', async () => {
     try {
         const response = await api.get('/api/wallet');
-        console.log(response.data);
+        console.log("wallet", response.data);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -22,11 +22,12 @@ export const getWalletTransactions = createAsyncThunk('/wallet/getWalletTransact
 });
 
 export const depositMoney = createAsyncThunk('/wallet/depositMoney',
-    async ( orderId: string ) => {
+    async ( {orderId, paymentId} : {orderId: number, paymentId: string} ) => {
         try {
-            const response = await api.put('/api/wallet/deposit', {
+            const response = await api.put('/api/wallet/deposit', null, {
                 params: {
-                    order_id: orderId
+                    order_id: orderId,
+                    payment_id: paymentId,
                 },
             });
             console.log(response.data);
@@ -40,7 +41,17 @@ export const paymentHandler = createAsyncThunk('/wallet/paymentHandler',
     async ({ amount, paymentMethod }: { amount: number, paymentMethod: string }) => {
         try {
             const response = await api.post(`/api/payment/${paymentMethod}/amount/${amount}`);
+            console.log(response.data);
             window.location.href = response.data.payment_url;
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+export const retrievePaymentId = createAsyncThunk('/wallet/retrievePaymentId',
+    async (sessionId: string) => {
+        try {
+            const response = await api.get(`/api/retrieve-payment-intent/${sessionId}`);
             console.log(response.data);
             return response.data;
         } catch (error) {
@@ -134,11 +145,14 @@ const walletSlice = createSlice({
                 state.loading = false;
                 state.userWallet = action.payload;
             })
-            .addCase(paymentHandler.fulfilled, (state, action) => {
-                state.loading = false;
-                state.paymentId = action.payload.payment_id;
-
-            })
+            // .addCase(paymentHandler.fulfilled, (state, action) => {
+            //     state.loading = false;
+            //     state.paymentId = action.payload;
+            // })
+            // .addCase(retrievePaymentId.fulfilled, (state, action) => {
+            //     state.loading = false;
+            //     state.paymentId = action.payload.payment_id;
+            // })
             // .addCase(transferMoney.fulfilled, (state, action) => {
             //     state.loading = false;
             //     state.userWallet = action.payload;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Table,
     TableBody,
@@ -8,8 +8,17 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/app/store';
+import { getUserAssets } from '@/features/Asset/AssetSlice';
 
 const Portfolio = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        dispatch(getUserAssets());
+    }, [])
+
     return (
         <div className='p-5 lg:px-20'>
             <h1 className='font-bold text-3xl pb-5 text-left'>Portfolio</h1>
