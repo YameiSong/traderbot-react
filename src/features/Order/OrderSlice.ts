@@ -23,14 +23,9 @@ export const getOrderByID = createAsyncThunk('/order/getOrderByID', async (order
 }
 );
 
-export const getAllOrdersForUser = createAsyncThunk('/order/getAllOrdersForUser', async ({orderType, assetSymbol} : {orderType: string, assetSymbol: string}) => {
+export const getAllOrdersForUser = createAsyncThunk('/order/getAllOrdersForUser', async () => {
     try {
-        const response = await api.get('/api/orders', {
-            params: {
-                order_type: orderType,
-                asset_symbol: assetSymbol
-            }
-        });
+        const response = await api.get('/api/orders');
         console.log(response.data);
         return response.data;
     } catch (error) {
@@ -38,7 +33,41 @@ export const getAllOrdersForUser = createAsyncThunk('/order/getAllOrdersForUser'
     }
 }
 );
-const initialState = {
+
+export type Order = {
+    id: number;
+    user: {
+        id: number;
+        username: string;
+        email: string;
+    };
+    order_type: string; // e.g., "BUY" or "SELL"
+    price: string; // BigDecimal represented as a string
+    timestamp: string; // ISO 8601 format
+    order_status: string; // e.g., "PENDING", "COMPLETED"
+    order_item: {
+        id: number;
+        quantity: number;
+        coin: {
+            id: number;
+            name: string;
+            symbol: string;
+            image: string;
+            total_volume: number;
+        };
+        buy_price: number;
+        sell_price: number;
+    } | null;
+}
+
+type OrderState = {
+    order: Order | null;
+    orders: Order[];
+    loading: boolean;
+    error: string | null;
+}
+
+const initialState: OrderState = {
     order: null,
     orders: [],
     loading: false,

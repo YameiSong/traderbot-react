@@ -72,7 +72,7 @@ const Profile = () => {
             <CardHeader>
               <div className="flex items-center gap-3">
                 <CardTitle>2 Step Verification</CardTitle>
-                {true ? (
+                {false ? (
                   <Badge className='bg-green-600 space-x-1'>
                     <BadgeCheck size={16} />
                     <span>Enabled</span>

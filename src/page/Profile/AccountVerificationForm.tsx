@@ -15,9 +15,12 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { DialogClose } from '@radix-ui/react-dialog'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/app/store'
 
 
 const AccountVerificationForm = () => {
+    const auth = useSelector((state: RootState) => state.auth)
     const [value, setValue] = React.useState('')
     const handleSubmit = () => {
         console.log(value)
@@ -26,8 +29,7 @@ const AccountVerificationForm = () => {
         <div className='flex justify-center'>
             <div className='space-y-5 mt-10 w-full'>
                 <div className="flex justify-between items-center">
-                    <p>Email : </p>
-                    <p>Your email address</p>
+                    <p><b>Email :</b> {auth.email}</p>
                     <Dialog>
                         <DialogTrigger className='p-0'>
                             <Button>Send OTP</Button>

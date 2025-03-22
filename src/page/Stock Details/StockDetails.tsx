@@ -17,9 +17,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/store'
 import { useParams } from 'react-router-dom'
 import { getCoinDetails } from '@/features/Coin/CoinSlice'
+import { addToWatchlist } from '@/features/Watchlist/WatchlistSlice'
 
 const StockDetails = () => {
   const coin = useSelector((state: RootState) => state.coin)
+  const watchlist = useSelector((state: RootState) => state.watchlist)
   const dispatch = useDispatch<AppDispatch>()
   const {id} = useParams()
 
@@ -28,6 +30,10 @@ const StockDetails = () => {
       dispatch(getCoinDetails(id))
     }
   }, [id])
+
+  const isCoinInWatchlist = (coinName: string | undefined) => {
+    return coinName ? Array.from(watchlist.coins).some(coin => coin.name === coinName) : false
+  }
 
   return (
     <div className='p-5 mt-5'>
@@ -57,9 +63,12 @@ const StockDetails = () => {
           </div>
         </div>
         <div className='flex items-center gap-6'>
-          <Button>
-            {true ? <BookmarkFilledIcon className='w-6 h-6' /> : <BookmarkIcon className='w-6 h-6' />}
-          </Button>
+            <Button 
+            className='bg-[#f9f9f9] text-primary h-11 hover:bg-[#f9f9f9]'
+            onClick={() => dispatch(addToWatchlist(coin.coinDetails?.id))}
+            >
+            {isCoinInWatchlist(coin.coinDetails?.name) ? <BookmarkFilledIcon className='w-6 h-6' /> : <BookmarkIcon className='w-6 h-6' />}
+            </Button>
           <Dialog>
             <DialogTrigger>Trade</DialogTrigger>
             <DialogContent>
