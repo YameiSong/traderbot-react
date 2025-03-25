@@ -6,6 +6,7 @@ import withdrawalReducer from '@/features/Withdrawal/WithdrawalSlice';
 import orderReducer from '@/features/Order/OrderSlice';
 import assetReducer from '@/features/Asset/AssetSlice';
 import watchlistReducer from '@/features/Watchlist/WatchlistSlice';
+import chatbotReducer from '@/features/Chatbot/ChatbotSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     order: orderReducer,
     asset: assetReducer,
     watchlist: watchlistReducer,
+    chatbot: chatbotReducer,
   },
 });
 

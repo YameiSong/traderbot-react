@@ -18,13 +18,16 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import { simpleChat, addMessage, Role } from '@/features/Chatbot/ChatbotSlice'
 
 
 const Home = () => {
     const [category, setCategory] = React.useState("all")
     const [inputValue, setInputValue] = React.useState("")
     const [isChatBotOpen, setIsChatBotOpen] = React.useState(false)
+
     const coin = useSelector((state: RootState) => state.coin)
+    const chatbot = useSelector((state: RootState) => state.chatbot)
     const dispatch: AppDispatch = useDispatch()
 
     const handleCategory = (value: string) => {
@@ -96,23 +99,22 @@ const Home = () => {
                         category={category}
                     />
                     <Pagination>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious href="#" />
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationLink href="#">1</PaginationLink>
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationEllipsis />
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationNext href="#" />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
                 </div>
-                
 
                 <div className="hidden lg:block lg:w-[50%] p-5">
                     <StockChart coinId='bitcoin' />
@@ -141,7 +143,7 @@ const Home = () => {
                 {isChatBotOpen &&
                     <div className="rounded-md w-[20rem] md:w-[25rem] lg:w-[25rem] h-[70vh] bg-slate-100">
                         <div className="flex justify-between items-center border-b-2 px-6 h-[12%]">
-                            <p>Chat Bot</p>
+                            <p className='font-semibold text-lg'>Chat Bot</p>
                             <Button
                                 variant={'ghost'}
                                 size={'icon'}
@@ -152,15 +154,21 @@ const Home = () => {
                             </Button>
                         </div>
                         <div className="h-[76%] flex flex-col overflow-y-auto gap-5 px-5 py-2 scroll-container">
-                            {[1, 1, 1, 1].map((_, index) => (
-                                <div key={index} className={`${index % 2 == 0 ? "self-start" : "self-end"} self-start pb-5 w-auto`}>
-                                    <div className='px-5 py-2 rounded-md bg-violet-200 w-auto text-left'>
-                                        <p>hi, yummy</p>
-                                        <p>you can ask crypto related question</p>
-                                        <p>like, price, market cap etc.</p>
-                                    </div>
+                            {chatbot.messages && chatbot.messages.map((message, index) => (
+                                <div 
+                                    key={index} 
+                                    className={`${message.role === Role.AI ? "self-start bg-sky-200" : "self-end bg-violet-200"} pb-5 px-5 py-2 rounded-md w-auto text-left`}
+                                >
+                                    <p>{message.text}</p>
                                 </div>
                             ))}
+                            {chatbot.loading && (
+                                <div className="self-start pb-5 w-auto">
+                                    <div className="px-5 py-2 rounded-md bg-blue-200 w-auto text-left">
+                                        <p>Fetching data ...</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div className='h-[12%] border-t'>
                             <Input
@@ -168,7 +176,15 @@ const Home = () => {
                                 placeholder='Type your message here...'
                                 onChange={handleChange}
                                 value={inputValue}
-                                onKeyDown={handleKeyDown}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && inputValue.trim()) {
+                                        dispatch(() => {
+                                            dispatch(addMessage(inputValue));
+                                            dispatch(simpleChat(inputValue));
+                                        });
+                                        setInputValue('');
+                                    }
+                                }}
                             />
                         </div>
                     </div>
