@@ -25,7 +25,9 @@ type Message = {
 const chatbotSlice = createSlice({
     name: 'chatbot',
     initialState: {
-        messages: [] as Message[],
+        messages: [
+            { role: Role.AI, text: 'Hello! Feel free to ask me anything about cryptocurrencies!' },
+        ] as Message[],
         loading: false,
         error: null as string | null,
     },
@@ -38,7 +40,11 @@ const chatbotSlice = createSlice({
         builder
             .addCase(simpleChat.fulfilled, (state, action) => {
                 state.loading = false;
-                state.messages.push({ role: Role.AI, text: action.payload });
+                if (action.payload) {
+                    state.messages.push({ role: Role.AI, text: action.payload });
+                } else {
+                    state.messages.push({ role: Role.AI, text: 'Sorry, I could not process your request. Please try again.' });
+                }
             })
             .addCase(simpleChat.pending, (state) => {
                 state.loading = true;
@@ -46,6 +52,7 @@ const chatbotSlice = createSlice({
             .addCase(simpleChat.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message ?? null;
+                state.messages.push({ role: Role.AI, text: 'An error occurred. Please try again later.' });
             });
     }
 });

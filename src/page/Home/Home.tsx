@@ -38,13 +38,6 @@ const Home = () => {
         setInputValue(e.target.value)
     }
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            console.log('Enter key pressed:' + inputValue)
-            setInputValue('')
-        }
-    }
-
     const handleChatBotOpen = () => {
         setIsChatBotOpen(!isChatBotOpen)
     }
@@ -141,7 +134,7 @@ const Home = () => {
             </div>
             <section className="fixed bottom-5 right-5 z-40 flex flex-col justify-end items-end gap-2">
                 {isChatBotOpen &&
-                    <div className="rounded-md w-[20rem] md:w-[25rem] lg:w-[25rem] h-[70vh] bg-slate-100">
+                    <div className="rounded-md w-[20rem] md:w-[25rem] lg:w-[30rem] h-[70vh] bg-slate-100">
                         <div className="flex justify-between items-center border-b-2 px-6 h-[12%]">
                             <p className='font-semibold text-lg'>Chat Bot</p>
                             <Button
