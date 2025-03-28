@@ -20,7 +20,7 @@ interface AssetTableProps {
     category: string;
 }
 
-const AssetTable: React.FC<AssetTableProps> = ({ coin, category }) => {
+const AssetTable: React.FC<AssetTableProps> = ({ coin}) => {
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
 

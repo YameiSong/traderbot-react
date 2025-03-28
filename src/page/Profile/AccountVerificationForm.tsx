@@ -18,13 +18,14 @@ import { DialogClose } from '@radix-ui/react-dialog'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
 
+interface AccountVerificationFormProps {
+    handleSubmit: () => void;
+}
 
-const AccountVerificationForm = () => {
+const AccountVerificationForm: React.FC<AccountVerificationFormProps> = ({ handleSubmit }) => {
     const auth = useSelector((state: RootState) => state.auth)
     const [value, setValue] = React.useState('')
-    const handleSubmit = () => {
-        console.log(value)
-    }
+
     return (
         <div className='flex justify-center'>
             <div className='space-y-5 mt-10 w-full'>

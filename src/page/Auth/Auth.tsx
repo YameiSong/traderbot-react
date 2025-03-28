@@ -1,4 +1,3 @@
-import React from 'react'
 import './Auth.css'
 import SingupForm from './SignupForm'
 import SinginForm from './SigninForm'

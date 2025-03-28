@@ -64,7 +64,7 @@ const StockChart: React.FC<StockChartProps> = ( {coinId} ) => {
             enabled: false
         },
         xaxis: {
-            type: "datetime",
+            type: "datetime" as "datetime",
             tickAmount: 6
         },
         colors: ["#646cff"],

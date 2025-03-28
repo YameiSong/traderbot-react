@@ -1,10 +1,10 @@
-import { AppDispatch, RootState } from '@/app/store'
+import { AppDispatch } from '@/app/store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { transferMoney } from '@/features/Wallet/WalletSlice'
 import { DialogClose } from '@radix-ui/react-dialog'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 const TransferForm = () => {
   const dispatch = useDispatch<AppDispatch>();
